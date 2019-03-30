@@ -2,6 +2,9 @@
 
 Repositori dedicata ai test dello stack del archivio-digitale
 
+- Aggiorna i file .txt con i contenuti apropriati
+- Avvia il tutto
+
 ```shell
 $ git clone https://github.com/n4y0n/tests-archivio-stack.git
 $ cd tests-archivio-stack

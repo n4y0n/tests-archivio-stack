@@ -15,7 +15,6 @@ services:
       - backend-network
       - frontend-network
 
-
   frontend:
     image: itisenricofermi/archivio-digitale-client:latest
     deploy:
@@ -27,7 +26,7 @@ services:
     networks:
       - frontend-network
 
-  backend: 
+  backend:
     image: itisenricofermi/archivio-digitale-server:latest
     deploy:
       placement:
@@ -62,7 +61,7 @@ services:
       MONGO_INITDB_DATABASE: archivio
     networks:
       - backend-network
-  
+
   mailer:
     image: itisenricofermi/archivio-digitale-mailer:latest
     deploy:
@@ -92,8 +91,8 @@ services:
       - archivio_mino_secret_key
       - archivio_mino_access_key
     environment:
-      - MINIO_ACCESS_KEY=kupvdl8WFlOj
-      - MINIO_SECRET_KEY=SgbB8ktkFG17
+      - MINIO_ACCESS_KEY=kupvdl8WFlOj #test key
+      - MINIO_SECRET_KEY=SgbB8ktkFG17 #test key
     ports:
       - 3013:9000
     networks:
@@ -101,21 +100,19 @@ services:
 
 secrets:
   archivio_mino_secret_key:
-    external: true
+    file: mino-sk.txt
   archivio_mino_access_key:
-    external: true
+    file: mino-ak.txt
   archivio_server_jwt_secret:
-    external: true
+    file: server-secret.txt
   archivio_mailer_user:
-    external: true
+    file: mailer-user.txt
   archivio_mailer_password:
-    external: true
+    file: mailer-pass.txt
 
 networks:
   frontend-network:
-    driver: overlay
   backend-network:
-    driver: overlay
 
 volumes:
   database-data:

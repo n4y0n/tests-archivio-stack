@@ -1,6 +1,6 @@
 <center><h3> 🔧❌ Archivio ✔🔧 </h3></center>
 
-Repositori dedicata ai test dello stack del archivio-digitale
+Repositori dedicata ai test dello stack del archivio-digitale (da usarsi solo in development)
 
 - Aggiorna i file .txt con i contenuti apropriati
 - Avvia il tutto

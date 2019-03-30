@@ -13,3 +13,5 @@ $ docker-compose up
 > localhost:3010 --> webapp archivio
 
 > localhost:3013 --> mino web interface/mino api endpoint
+
+> localhost:27017 --> mongodb

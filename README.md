@@ -3,7 +3,8 @@
 Repositori dedicata ai test dello stack del archivio-digitale (da usarsi solo in development)
 
 - Aggiorna i file .txt con i contenuti apropriati
-- Avvia il tutto con ``` $ docker-compose up ```
+- Avvia il tutto con ``` docker-compose up ```
+- Per riavviare elimina anche i volumi creati con ``` docker-compose down -v ```
 
 ```shell
 $ git clone https://github.com/n4y0n/tests-archivio-stack.git

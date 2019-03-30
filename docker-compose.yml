@@ -87,24 +87,24 @@ services:
         condition: any
     command: server /data
     volumes:
-      - mino-data:/data
-      - mino-config:/root/.minio
+      - minio-data:/data
+      - minio-config:/root/.minio
     secrets:
-      - archivio_mino_secret_key
-      - archivio_mino_access_key
+      - archivio_minio_secret_key
+      - archivio_minio_access_key
     environment:
-      - MINIO_SECRET_KEY_FILE=archivio_mino_secret_key #test key
-      - MINIO_ACCESS_KEY_FILE=archivio_mino_access_key #test key
+      - MINIO_SECRET_KEY_FILE=archivio_minio_secret_key #test key
+      - MINIO_ACCESS_KEY_FILE=archivio_minio_access_key #test key
     ports:
       - 3013:9000
     networks:
       - backend-network
 
 secrets:
-  archivio_mino_secret_key:
-    file: mino-sk.txt
-  archivio_mino_access_key:
-    file: mino-ak.txt
+  archivio_minio_secret_key:
+    file: minio-sk.txt
+  archivio_minio_access_key:
+    file: minio-ak.txt
   archivio_server_jwt_secret:
     file: server-secret.txt
   archivio_mailer_user:
@@ -120,5 +120,5 @@ volumes:
   database-data:
   database-config:
   server-data:
-  mino-data:
-  mino-config:
+  minio-data:
+  minio-config:

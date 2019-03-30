@@ -1,0 +1,125 @@
+version: "3.1"
+
+services:
+  reverse_proxy:
+    image: itisenricofermi/archivio-digitale-nginx:latest
+    ports:
+      - 3010:80
+    depends_on:
+      - backend
+      - frontend
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - backend-network
+      - frontend-network
+
+
+  frontend:
+    image: itisenricofermi/archivio-digitale-client:latest
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: any
+    depends_on:
+      - backend
+    networks:
+      - frontend-network
+
+  backend: 
+    image: itisenricofermi/archivio-digitale-server:latest
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: any
+    secrets:
+      - archivio_server_jwt_secret
+    environment:
+      MONGODB_URI: "mongodb://database:27017/archivio"
+      MAILER_URL: "http://mailer/send"
+      JWT_SECRET_FILE: "/run/secrets/archivio_server_jwt_secret"
+    volumes:
+      - server-data:/app/server/public
+    depends_on:
+      - database
+    networks:
+      - backend-network
+      - frontend-network
+
+  database:
+    image: mongo:3.4.19-jessie
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: any
+    volumes:
+      - database-data:/data/db
+      - database-config:/data/configdb
+    environment:
+      MONGO_INITDB_DATABASE: archivio
+    networks:
+      - backend-network
+  
+  mailer:
+    image: itisenricofermi/archivio-digitale-mailer:latest
+    deploy:
+      restart_policy:
+        condition: any
+    secrets:
+      - archivio_mailer_user
+      - archivio_mailer_password
+    environment:
+      - USER_FILE=/run/secrets/archivio_mailer_user
+      - PASSWORD_FILE=/run/secrets/archivio_mailer_password
+      - SERVER=smtp.ionos.com
+      - FROM=me@riccardosangiorgio.com
+    networks:
+      - backend-network
+
+  mino:
+    image: minio/minio:RELEASE.2019-03-27T22-35-21Z
+    deploy:
+      restart_policy:
+        condition: any
+    command: server /data
+    volumes:
+      - mino-data:/data
+      - mino-config:/root/.minio
+    secrets:
+      - archivio_mino_secret_key
+      - archivio_mino_access_key
+    environment:
+      - MINIO_ACCESS_KEY=kupvdl8WFlOj
+      - MINIO_SECRET_KEY=SgbB8ktkFG17
+    ports:
+      - 3013:9000
+    networks:
+      - backend-network
+
+secrets:
+  archivio_mino_secret_key:
+    external: true
+  archivio_mino_access_key:
+    external: true
+  archivio_server_jwt_secret:
+    external: true
+  archivio_mailer_user:
+    external: true
+  archivio_mailer_password:
+    external: true
+
+networks:
+  frontend-network:
+    driver: overlay
+  backend-network:
+    driver: overlay
+
+volumes:
+  database-data:
+  database-config:
+  server-data:
+  mino-data:
+  mino-config:

@@ -93,8 +93,8 @@ services:
       - archivio_mino_secret_key
       - archivio_mino_access_key
     environment:
-      - MINIO_ACCESS_KEY=kupvdl8WFlOj #test key
-      - MINIO_SECRET_KEY=SgbB8ktkFG17 #test key
+      - MINIO_SECRET_KEY_FILE=archivio_mino_secret_key #test key
+      - MINIO_ACCESS_KEY_FILE=archivio_mino_access_key #test key
     ports:
       - 3013:9000
     networks:

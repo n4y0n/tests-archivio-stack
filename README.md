@@ -1,6 +1,6 @@
 <center><h3> 🔧❌ Archivio ✔🔧 </h3></center>
 
-Repositori dedicata ai test dello stack del archivio-digitale
+Repositori dedicata ai test dello stack del archivio-digitale (da usarsi solo in development)
 
 - Aggiorna i file .txt con i contenuti apropriati
 - Avvia il tutto
@@ -13,3 +13,5 @@ $ docker-compose up
 > localhost:3010 --> webapp archivio
 
 > localhost:3013 --> mino web interface/mino api endpoint
+
+> localhost:27017 --> mongodb

@@ -2,6 +2,7 @@ version: "3.1"
 
 services:
   reverse_proxy:
+    build: reverse_proxy/nginx
     image: itisenricofermi/archivio-digitale-nginx:latest
     ports:
       - 3010:80
@@ -16,6 +17,7 @@ services:
       - frontend-network
 
   frontend:
+    build: client
     image: itisenricofermi/archivio-digitale-client:latest
     deploy:
       replicas: 2
@@ -27,6 +29,9 @@ services:
       - frontend-network
 
   backend:
+    build:
+      context: server
+      dockerfile: docker/Dockerfile
     image: itisenricofermi/archivio-digitale-server:latest
     deploy:
       placement:
@@ -59,12 +64,13 @@ services:
       - database-config:/data/configdb
     environment:
       MONGO_INITDB_DATABASE: archivio
-    ports:
-      - 27017:27017
     networks:
       - backend-network
 
   mailer:
+    build:
+      context: mailer
+      dockerfile: docker/Dockerfile
     image: itisenricofermi/archivio-digitale-mailer:latest
     deploy:
       restart_policy:
@@ -96,7 +102,7 @@ services:
       - MINIO_SECRET_KEY_FILE=archivio_minio_secret_key #test key
       - MINIO_ACCESS_KEY_FILE=archivio_minio_access_key #test key
     ports:
-      - 3013:9000 # Remove me in production
+      - 3013:9000
     networks:
       - backend-network
 

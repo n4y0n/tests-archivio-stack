@@ -35,6 +35,8 @@ services:
         condition: any
     secrets:
       - archivio_server_jwt_secret
+      - archivio_minio_access_key
+      - archivio_minio_secret_key
     environment:
       MONGODB_URI: "mongodb://database:27017/archivio"
       MAILER_URL: "http://mailer/send"

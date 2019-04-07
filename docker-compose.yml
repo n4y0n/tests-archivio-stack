@@ -38,15 +38,16 @@ services:
       - archivio_minio_access_key
       - archivio_minio_secret_key
     environment:
-      MONGODB_URI: "mongodb://database:27017/archivio"
-      MAILER_URL: "http://mailer/send"
-      MINIO_HOST: "minio"
-      MINIO_PORT: "9000"
-      MINIO_ACCESS_KEY: accesskey
-      MINIO_SECRET_KEY: secretkey
-      JWT_SECRET_FILE: "/run/secrets/archivio_server_jwt_secret"
+      - "MONGODB_URI=mongodb://database:27017/archivio"
+      - "MAILER_URL=http://mailer/send"
+      - MINIO_HOST=minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=accesskey
+      - MINIO_SECRET_KEY=secretkey
+      - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
     volumes:
       - server-data:/app/server/public
+      # - ./server/data:/app/server/public
     depends_on:
       - database
     networks:
@@ -95,6 +96,8 @@ services:
     volumes:
       - minio-data:/data
       - minio-config:/root/.minio
+      # - ./minio/data:/data
+      # - ./minio/config:/root/.minio
     secrets:
       - archivio_minio_secret_key
       - archivio_minio_access_key
@@ -124,7 +127,9 @@ networks:
 
 volumes:
   database-data:
+#    external: true
   database-config:
+#    external: true
   server-data:
   minio-data:
   minio-config:

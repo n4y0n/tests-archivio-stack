@@ -2,7 +2,6 @@ version: "3.1"
 
 services:
   reverse_proxy:
-    build: reverse_proxy/nginx
     image: itisenricofermi/archivio-digitale-nginx:latest
     ports:
       - 3010:80
@@ -17,7 +16,6 @@ services:
       - frontend-network
 
   frontend:
-    build: client
     image: itisenricofermi/archivio-digitale-client:latest
     deploy:
       replicas: 2
@@ -29,9 +27,6 @@ services:
       - frontend-network
 
   backend:
-    build:
-      context: server
-      dockerfile: docker/Dockerfile
     image: itisenricofermi/archivio-digitale-server:latest
     deploy:
       placement:
@@ -40,14 +35,16 @@ services:
         condition: any
     secrets:
       - archivio_server_jwt_secret
+      - archivio_minio_access_key
+      - archivio_minio_secret_key
     environment:
-      MONGODB_URI: "mongodb://database:27017/archivio"
-      MAILER_URL: "http://mailer/send"
-      MINIO_HOST: "minio"
-      MINIO_PORT: "9000"
-      MINIO_ACCESS_KEY: accesskey
-      MINIO_SECRET_KEY: secretkey
-      JWT_SECRET_FILE: "/run/secrets/archivio_server_jwt_secret"
+      - "MONGODB_URI=mongodb://database:27017/archivio"
+      - "MAILER_URL=http://mailer/send"
+      - MINIO_HOST=minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=accesskey
+      - MINIO_SECRET_KEY=secretkey
+      - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
     volumes:
       - server-data:/app/server/public
     depends_on:
@@ -67,14 +64,11 @@ services:
       - database-data:/data/db
       - database-config:/data/configdb
     environment:
-      MONGO_INITDB_DATABASE: archivio
+      - MONGO_INITDB_DATABASE=archivio
     networks:
       - backend-network
 
   mailer:
-    build:
-      context: mailer
-      dockerfile: docker/Dockerfile
     image: itisenricofermi/archivio-digitale-mailer:latest
     deploy:
       restart_policy:
@@ -91,7 +85,7 @@ services:
       - backend-network
 
   minio:
-    image: minio/minio:RELEASE.2019-03-27T22-35-21Z
+    image: minio/minio:RELEASE.2019-04-04T18-31-46Z
     deploy:
       restart_policy:
         condition: any
@@ -105,8 +99,6 @@ services:
     environment:
       - MINIO_SECRET_KEY_FILE=archivio_minio_secret_key #test key
       - MINIO_ACCESS_KEY_FILE=archivio_minio_access_key #test key
-    ports:
-      - 3013:9000
     networks:
       - backend-network
 

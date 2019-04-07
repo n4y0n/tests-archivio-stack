@@ -45,6 +45,7 @@ services:
       - MINIO_ACCESS_KEY=accesskey
       - MINIO_SECRET_KEY=secretkey
       - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
+      - NODE_ENV=development
     volumes:
       - server-data:/app/server/public
       # - ./server/data:/app/server/public
@@ -127,9 +128,7 @@ networks:
 
 volumes:
   database-data:
-#    external: true
   database-config:
-#    external: true
   server-data:
   minio-data:
   minio-config:

@@ -11,7 +11,11 @@ $ git clone https://github.com/n4y0n/tests-archivio-stack.git
 $ cd tests-archivio-stack
 $ docker-compose up
 ```
-> localhost:3010 --> webapp archivio
+> localhost:3010 --> reverse proxy archivio
+
+> localhost:3011 --> direct access webapp no reverse proxy (connettersi qui rompe l'app)
+
+> localhost:3012 --> nodejs backend server 
 
 > localhost:3013 --> mino web interface/minio api endpoint
 

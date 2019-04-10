@@ -25,6 +25,8 @@ services:
       - backend
     networks:
       - frontend-network
+    ports:
+      - 3011:80
 
   backend:
     image: itisenricofermi/archivio-digitale-server:latest
@@ -54,6 +56,8 @@ services:
     networks:
       - backend-network
       - frontend-network
+    ports:
+      - 3012:80
 
   database:
     image: mongo:3.4.19-jessie

@@ -46,8 +46,8 @@ services:
       - "MAILER_URL=http://mailer/send"
       - MINIO_HOST=minio
       - MINIO_PORT=9000
-      - MINIO_ACCESS_KEY=/run/secrets/archivio_minio_access_key
-      - MINIO_SECRET_KEY=/run/secrets/archivio_minio_secret_key
+      - MINIO_SECRET_KEY_FILE=/run/secrets/archivio_minio_secret_key #test key
+      - MINIO_ACCESS_KEY_FILE=/run/secrets/archivio_minio_access_key #test key
       - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
     depends_on:
       - database
@@ -108,23 +108,27 @@ services:
       - MINIO_ACCESS_KEY_FILE=archivio_minio_access_key #test key
     networks:
       - backend-network
+    ports:
+      - 3333:9000
 
 secrets:
   archivio_minio_secret_key:
-    file: minio-sk.txt
+    external: true
   archivio_minio_access_key:
-    file: minio-ak.txt
+    external: true
   archivio_server_jwt_secret:
-    file: server-secret.txt
+    external: true
   archivio_mailer_user:
-    file: mailer-user.txt
+    external: true
   archivio_mailer_password:
-    file: mailer-pass.txt
+    external: true
 
 networks:
   frontend-network:
+    driver: overlay
   backend-network:
-
+    driver: overlay
+    
 volumes:
   database-data:
   database-config:

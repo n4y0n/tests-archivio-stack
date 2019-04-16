@@ -46,8 +46,8 @@ services:
       - "MAILER_URL=http://mailer/send"
       - MINIO_HOST=minio
       - MINIO_PORT=9000
-      - MINIO_ACCESS_KEY=accesskey
-      - MINIO_SECRET_KEY=secretkey
+      - MINIO_ACCESS_KEY=/run/secrets/archivio_minio_access_key
+      - MINIO_SECRET_KEY=/run/secrets/archivio_minio_secret_key
       - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
     depends_on:
       - database

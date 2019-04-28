@@ -10,3 +10,6 @@
 [submodule "mailer"]
 	path = mailer
 	url = git@github.com:ITISEnricoFermi/archivio-digitale-mailer.git
+[submodule "updater"]
+	path = updater
+	url = git@github.com:ITISEnricoFermi/archivio-digitale-updater.git

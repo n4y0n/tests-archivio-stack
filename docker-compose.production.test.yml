@@ -48,6 +48,8 @@ services:
       - MINIO_PORT=9000
       - MINIO_SECRET_KEY_FILE=/run/secrets/archivio_minio_secret_key #test key
       - MINIO_ACCESS_KEY_FILE=/run/secrets/archivio_minio_access_key #test key
+      - UPDATER_URL=updater
+      - UPDATER_PORT=3050
       - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
     depends_on:
       - database
@@ -87,6 +89,16 @@ services:
       - SERVER=smtp.ionos.com
       - FROM=me@riccardosangiorgio.com
     networks:
+      - backend-network
+
+  updater:
+    image: prons/archivio-digitale-updater:latest
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: any
+    networks: 
       - backend-network
 
   minio:

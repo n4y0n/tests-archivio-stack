@@ -107,6 +107,12 @@ services:
         condition: any
     networks: 
       - backend-network
+    environment:
+      - NODE_ENV=development
+    ports: 
+      - 3050:3050
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
   minio:
     image: minio/minio:RELEASE.2019-04-04T18-31-46Z

@@ -92,7 +92,7 @@ services:
       - backend-network
 
   updater:
-    image: prons/archivio-digitale-updater:latest
+    image: prons/archivio-digitale-updater:1.0.0
     deploy:
       placement:
         constraints: [node.role == manager]

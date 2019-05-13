@@ -48,8 +48,8 @@ services:
       - MINIO_PORT=9000
       - MINIO_SECRET_KEY_FILE=/run/secrets/archivio_minio_secret_key #test key
       - MINIO_ACCESS_KEY_FILE=/run/secrets/archivio_minio_access_key #test key
-      - UPDATER_URL=updater
-      - UPDATER_PORT=3050
+      - "UPDATER_URL=http://updater/"
+      - UPDATER_TOKEN_FILE=/run/secrets/archivio_updater_token
       - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
     depends_on:
       - database
@@ -92,7 +92,7 @@ services:
       - backend-network
 
   updater:
-    image: prons/archivio-digitale-updater:1.0.0
+    image: prons/archivio-digitale-updater:2.1.1
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -100,6 +100,8 @@ services:
         condition: any
     networks: 
       - backend-network
+    environment: 
+      - TOKEN_FILE=/run/secrets/archivio_updater_token
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
@@ -135,6 +137,8 @@ secrets:
   archivio_mailer_user:
     external: true
   archivio_mailer_password:
+    external: true
+  archivio_updater_token:
     external: true
 
 networks:

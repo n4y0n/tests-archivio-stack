@@ -32,3 +32,14 @@ spec:
             - name: archivio-digitale-minio-persistent-volume
               mountPath: /root/.minio
               subPath: config
+          env:
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret-key
+                  key: MINIO_SECRET_KEY
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-access-key
+                  key: MINIO_ACCESS_KEY

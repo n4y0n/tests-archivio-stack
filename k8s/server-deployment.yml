@@ -17,3 +17,27 @@ spec:
           image: itisenricofermi/archivio-digitale-server
           ports:
             - containerPort: 80
+          env:
+            - name: MONGODB_URI
+              value: mongodb://archivio-digitale-mongo-cluster-ip-service:27017/archivio
+            - name: MAILER_URL
+              value: http://archivio-digitale-mailer-cluster-ip-service/send
+            - name: MINIO_HOST
+              value: archivio-digitale-minio-cluster-ip-service
+            - name: MINIO_PORT
+              value: "9000"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: server-jwt-secret
+                  key: JWT_SECRET
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret-key
+                  key: MINIO_SECRET_KEY
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-access-key
+                  key: MINIO_ACCESS_KEY

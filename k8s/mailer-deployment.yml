@@ -17,3 +17,18 @@ spec:
           image: itisenricofermi/archivio-digitale-mailer
           ports:
             - containerPort: 80
+          env:
+            - name: USER
+              valueFrom:
+                secretKeyRef:
+                  name: mailer-user
+                  key: USER 
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mailer-password
+                  key: PASSWORD
+            - name: SERVER
+              value: smtp.ionos.com
+            - name: FROM
+              value: me@riccardosangiorgio.com

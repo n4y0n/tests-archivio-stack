@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivio-digitale-server-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      archivio-digitale: server
+  template:
+    metadata:
+      labels:
+        archivio-digitale: server
+    spec:
+      containers:
+        - name: server
+          image: itisenricofermi/archivio-digitale-server
+          ports:
+            - containerPort: 80

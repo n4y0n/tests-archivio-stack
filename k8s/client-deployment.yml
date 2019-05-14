@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivio-digitale-client-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      archivio-digitale: client
+  template:
+    metadata:
+      labels:
+        archivio-digitale: client
+    spec:
+      containers:
+        - name: client
+          image: itisenricofermi/archivio-digitale-client
+          ports:
+            - containerPort: 80

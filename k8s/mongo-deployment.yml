@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivio-digitale-mongo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      archivio-digitale: mongo
+  template:
+    metadata:
+      labels:
+        archivio-digitale: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:3.4.19-jessie
+          ports:
+            - containerPort: 27017
+          env:
+            - MONGO_INITDB_DATABASE: archivio

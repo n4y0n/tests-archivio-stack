@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archivio-digitale-mailer-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      archivio-digitale: mailer
+  template:
+    metadata:
+      labels:
+        archivio-digitale: mailer
+    spec:
+      containers:
+        - name: mailer
+          image: itisenricofermi/archivio-digitale-mailer
+          ports:
+            - containerPort: 80

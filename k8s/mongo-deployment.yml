@@ -12,10 +12,22 @@ spec:
       labels:
         archivio-digitale: mongo
     spec:
+      volumes:
+        - name: archivio-digitale-mongo-persistent-volume
+          persistentVolumeClaim:
+            claimName: archivio-digitale-mongo-persistent-volume-claim
       containers:
         - name: mongo
           image: mongo:3.4.19-jessie
           ports:
             - containerPort: 27017
           env:
-            - MONGO_INITDB_DATABASE: archivio
+            - name: MONGO_INITDB_DATABASE
+              value: archivio
+          volumeMounts:
+            - name: archivio-digitale-mongo-persistent-volume
+              mountPath: /data/db
+              subPath: data
+            - name: archivio-digitale-mongo-persistent-volume
+              mountPath: /data/configdb
+              subPath: config

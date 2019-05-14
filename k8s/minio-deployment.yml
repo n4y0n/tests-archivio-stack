@@ -12,8 +12,23 @@ spec:
       labels:
         archivio-digitale: minio
     spec:
+      volumes:
+        - name: archivio-digitale-minio-persistent-volume
+          persistentVolumeClaim:
+            claimName: archivio-digitale-minio-persistent-volume-claim
       containers:
         - name: minio
           image: minio/minio:RELEASE.2019-04-04T18-31-46Z
+          command:
+            - server
+          args:
+            - /data
           ports:
             - containerPort: 9000
+          volumeMounts:
+            - name: archivio-digitale-minio-persistent-volume
+              mountPath: /data
+              subPath: data
+            - name: archivio-digitale-minio-persistent-volume
+              mountPath: /root/.minio
+              subPath: config

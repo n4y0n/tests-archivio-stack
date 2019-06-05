@@ -38,19 +38,19 @@ services:
       restart_policy:
         condition: any
     secrets:
-      - archivio_server_jwt_secret
-      - archivio_minio_access_key
-      - archivio_minio_secret_key
+      - server_jwt_secret
+      - minio_access_key
+      - minio_secret_key
     environment:
       - "MONGODB_URI=mongodb://database:27017/archivio"
       - "MAILER_URL=http://mailer/send"
       - MINIO_HOST=minio
       - MINIO_PORT=9000
-      - MINIO_SECRET_KEY_FILE=/run/secrets/archivio_minio_secret_key #test key
-      - MINIO_ACCESS_KEY_FILE=/run/secrets/archivio_minio_access_key #test key
-      - "UPDATER_URL=http://updater/"
-      - UPDATER_TOKEN_FILE=/run/secrets/archivio_updater_token
-      - JWT_SECRET_FILE=/run/secrets/archivio_server_jwt_secret
+      - MINIO_SECRET_KEY_FILE=/run/secrets/minio_secret_key #test key
+      - MINIO_ACCESS_KEY_FILE=/run/secrets/minio_access_key #test key
+      # - "UPDATER_URL=http://updater/"
+      # - UPDATER_TOKEN_FILE=/run/secrets/updater_token
+      - JWT_SECRET_FILE=/run/secrets/server_jwt_secret
     depends_on:
       - database
       - minio
@@ -81,29 +81,29 @@ services:
       restart_policy:
         condition: any
     secrets:
-      - archivio_mailer_user
-      - archivio_mailer_password
+      - mailer_user
+      - mailer_password
     environment:
-      - USER_FILE=/run/secrets/archivio_mailer_user
-      - PASSWORD_FILE=/run/secrets/archivio_mailer_password
+      - USER_FILE=/run/secrets/mailer_user
+      - PASSWORD_FILE=/run/secrets/mailer_password
       - SERVER=smtp.ionos.com
       - FROM=me@riccardosangiorgio.com
     networks:
       - backend-network
 
-  updater:
-    image: prons/archivio-digitale-updater:2.1.1
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-      restart_policy:
-        condition: any
-    networks: 
-      - backend-network
-    environment: 
-      - TOKEN_FILE=/run/secrets/archivio_updater_token
-    volumes: 
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+  # updater:
+  #   image: prons/archivio-digitale-updater:2.1.1
+  #   deploy:
+  #     placement:
+  #       constraints: [node.role == manager]
+  #     restart_policy:
+  #       condition: any
+  #   networks: 
+  #     - backend-network
+  #   environment: 
+  #     - TOKEN_FILE=/run/secrets/updater_token
+  #   volumes: 
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
 
   minio:
     image: minio/minio:RELEASE.2019-04-04T18-31-46Z
@@ -117,29 +117,29 @@ services:
       - minio-data:/data
       - minio-config:/root/.minio
     secrets:
-      - archivio_minio_secret_key
-      - archivio_minio_access_key
+      - minio_secret_key
+      - minio_access_key
     environment:
-      - MINIO_SECRET_KEY_FILE=archivio_minio_secret_key #test key
-      - MINIO_ACCESS_KEY_FILE=archivio_minio_access_key #test key
+      - MINIO_SECRET_KEY_FILE=minio_secret_key #test key
+      - MINIO_ACCESS_KEY_FILE=minio_access_key #test key
     networks:
       - backend-network
     ports:
       - 3333:9000
 
 secrets:
-  archivio_minio_secret_key:
+  minio_secret_key:
     external: true
-  archivio_minio_access_key:
+  minio_access_key:
     external: true
-  archivio_server_jwt_secret:
+  server_jwt_secret:
     external: true
-  archivio_mailer_user:
+  mailer_user:
     external: true
-  archivio_mailer_password:
+  mailer_password:
     external: true
-  archivio_updater_token:
-    external: true
+  # updater_token:
+  #   external: true
 
 networks:
   frontend-network:
@@ -149,6 +149,10 @@ networks:
     
 volumes:
   database-data:
+    external: true
   database-config:
+    external: true
   minio-data:
+    external: true
   minio-config:
+    external: true

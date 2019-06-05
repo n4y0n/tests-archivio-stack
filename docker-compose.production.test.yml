@@ -86,8 +86,8 @@ services:
     environment:
       - USER_FILE=/run/secrets/mailer_user
       - PASSWORD_FILE=/run/secrets/mailer_password
-      - SECURE=true
-      - PORT=465
+      - SECURE=false
+      - PORT=587
       - SERVER=smtp.gmail.com
       - FROM=admin@archivio.itisfermi.edu.it
     networks:

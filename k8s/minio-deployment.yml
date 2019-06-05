@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: archivio-digitale-minio-deployment
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       archivio-digitale: minio
@@ -19,10 +19,7 @@ spec:
       containers:
         - name: minio
           image: minio/minio:RELEASE.2019-04-04T18-31-46Z
-          command:
-            - server
-          args:
-            - /data
+          command: ["server", "/data"]
           ports:
             - containerPort: 9000
           volumeMounts:

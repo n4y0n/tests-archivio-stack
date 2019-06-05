@@ -86,8 +86,10 @@ services:
     environment:
       - USER_FILE=/run/secrets/mailer_user
       - PASSWORD_FILE=/run/secrets/mailer_password
-      - SERVER=smtp.ionos.com
-      - FROM=me@riccardosangiorgio.com
+      - SECURE=true
+      - PORT=465
+      - SERVER=smtp.gmail.com
+      - FROM=admin@archivio.itisfermi.edu.it
     networks:
       - backend-network
 

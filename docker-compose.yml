@@ -89,9 +89,11 @@ services:
     secrets:
       - mailer_user
       - mailer_password
+      - mailer_json_key
     environment:
       - USER_FILE=/run/secrets/mailer_user
       - PASSWORD_FILE=/run/secrets/mailer_password
+      - JSON_SECRET=/run/secrets/mailer_json_key
       - SECURE=0
       - PORT=587
       - SERVER=smtp.gmail.com
@@ -132,6 +134,8 @@ secrets:
     file: mailer-user.txt
   mailer_password:
     file: mailer-pass.txt
+  mailer_json_key:
+    file: key.json
 
 networks:
   frontend-network:

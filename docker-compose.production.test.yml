@@ -83,9 +83,11 @@ services:
     secrets:
       - mailer_user
       - mailer_password
+      - mailer_json_key
     environment:
       - USER_FILE=/run/secrets/mailer_user
       - PASSWORD_FILE=/run/secrets/mailer_password
+      - JSON_SECRET=/run/secrets/mailer_json_key
       - SECURE=0
       - PORT=587
       - SERVER=smtp.gmail.com
@@ -139,6 +141,8 @@ secrets:
   mailer_user:
     external: true
   mailer_password:
+    external: true
+  mailer_json_key:
     external: true
   # updater_token:
   #   external: true

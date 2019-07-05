@@ -50,10 +50,8 @@ services:
       - "MAILER_URL=http://mailer/send"
       - MINIO_HOST=minio
       - MINIO_PORT=9000
-      - MINIO_SECRET_KEY_FILE=/run/secrets/minio_secret_key #test key
-      - MINIO_ACCESS_KEY_FILE=/run/secrets/minio_access_key #test key
-      # - "UPDATER_URL=http://updater/"
-      # - UPDATER_TOKEN_FILE=/run/secrets/updater_token
+      - MINIO_SECRET_KEY_FILE=/run/secrets/minio_secret_key
+      - MINIO_ACCESS_KEY_FILE=/run/secrets/minio_access_key
       - JWT_SECRET_FILE=/run/secrets/server_jwt_secret
     depends_on:
       - database
@@ -116,8 +114,8 @@ services:
       - minio_secret_key
       - minio_access_key
     environment:
-      - MINIO_SECRET_KEY_FILE=minio_secret_key #test key
-      - MINIO_ACCESS_KEY_FILE=minio_access_key #test key
+      - MINIO_SECRET_KEY_FILE=minio_secret_key
+      - MINIO_ACCESS_KEY_FILE=minio_access_key
     networks:
       - backend-network
     ports:
